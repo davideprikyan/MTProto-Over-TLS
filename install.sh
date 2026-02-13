@@ -194,7 +194,7 @@ show_proxy_link() {
       | xargs -I{} echo "tg://proxy?server=$DOMAIN&port=443&secret={}")
 
     echo "$PROXY_LINK"
-    log
+    log ""
     echo "Установка успешно завершена! Выход..."
 }
 
