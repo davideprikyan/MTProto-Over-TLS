@@ -1,0 +1,149 @@
+:root {
+    --bg-a: 210;
+    --bg-h1: 280;
+    --bg-h2: 40;
+    --bg-h3: 160;
+    --bg-s: 85%;
+    --bg-l: 55%;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(1200px 800px at 50% 40%,
+    hsl(var(--bg-h1) var(--bg-s) calc(var(--bg-l) + 8%)),
+    hsl(var(--bg-h2) var(--bg-s) var(--bg-l)),
+    hsl(var(--bg-h3) var(--bg-s) calc(var(--bg-l) - 10%)));
+    transition: background 120ms linear;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background: conic-gradient(from calc(var(--bg-a) * 1deg) at 50% 50%,
+    hsl(calc(var(--bg-h1) + 20) 95% 60% / 0.35),
+    hsl(calc(var(--bg-h2) + 40) 95% 60% / 0.35),
+    hsl(calc(var(--bg-h3) + 10) 95% 60% / 0.35),
+    hsl(calc(var(--bg-h1) + 20) 95% 60% / 0.35));
+    mix-blend-mode: overlay;
+    filter: blur(60px) saturate(1.4);
+}
+
+.wrap {
+    width: min(80vw, 520px);
+    touch-action: none;
+    user-select: none;
+}
+
+.avatar {
+    width: 100%;
+    border-radius: 22px;
+    overflow: hidden;
+    box-shadow: 0 35px 90px rgba(0, 0, 0, .5);
+    will-change: transform;
+    transform: translateZ(0);
+}
+
+.avatar img {
+    width: 100%;
+    height: auto;
+    display: block;
+    pointer-events: none;
+    user-drag: none;
+    -webkit-user-drag: none;
+}
+
+.bottom-ui {
+    position: fixed;
+    bottom: max(20px, env(safe-area-inset-bottom));
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 18px;
+    z-index: 9999;
+    pointer-events: auto;
+}
+
+.btn {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 14px;
+    background: rgba(0, 0, 0, .55);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all .25s ease;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+}
+
+.icon-btn {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.bot-link {
+    position: fixed;
+    top: max(20px, env(safe-area-inset-top));
+    right: 20px;
+    left: auto;
+    bottom: auto;
+
+    display: flex;
+    align-items: center;
+
+    z-index: 9999;
+    opacity: .85;
+    text-decoration: none;
+    color: inherit;
+}
+
+
+.fade-out {
+    opacity: 0;
+    transform: scale(.8);
+    margin: 0;
+    padding-left: 0;
+    padding-right: 0;
+    width: 0;
+    overflow: hidden;
+}
+
+
+.tg-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+}
+
+.bot-text {
+    height: 15px;
+    position: relative;
+    margin-left: 5px;
+
+}
+

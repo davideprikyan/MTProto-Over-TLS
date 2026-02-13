@@ -1,0 +1,30 @@
+show_link = ["users"]
+
+[general]
+prefer_ipv6 = false
+fast_mode = false
+use_middle_proxy = false
+
+[general.modes]
+classic = false
+secure = false
+tls = true
+
+[server]
+port = 443
+listen_addr_ipv4 = "0.0.0.0"
+listen_addr_ipv6 = "::"
+
+[censorship]
+tls_domain = "__DOMAIN__"
+mask = true
+mask_port = __MASK_PORT__
+fake_cert_len = 2048
+
+[access.users]
+users = "__SECRET__"
+
+[[upstreams]]
+type = "direct"
+enabled = true
+weight = 10
