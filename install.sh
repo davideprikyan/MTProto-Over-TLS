@@ -1,11 +1,25 @@
 #!/bin/bash
 
+# Функция для получения информации о пользователе, который запустил скрипт
+set_user_info() {
+    if [ -n "$SUDO_USER" ]; then
+        # Запущено через sudo
+        USER_NAME="$SUDO_USER"
+        USER_HOME=$(eval echo ~$SUDO_USER)
+    else
+        # Запущено напрямую
+        USER_NAME="$USER"
+        USER_HOME="$HOME"
+    fi
+}
+
 log() {
     local text="$1"
     local char="${2:-=}"
     local width=80
 
-    if [[ -z "${text// }" ]]; then  # проверяем, что текст пустой или состоит только из пробелов
+    # Проверяем, что текст пустой или состоит только из пробелов
+    if [[ -z "${text// }" ]]; then
         printf '%*s' $width '' | tr ' ' "$char"
         echo
     else
@@ -60,7 +74,7 @@ install_docker() {
 
         # Создаем группу docker и добавляем пользователя
         sudo groupadd docker 2>/dev/null
-        sudo usermod -aG docker $USER
+        sudo usermod -aG docker $USER_NAME
 
         # Запускаем и включаем демон Docker
         sudo systemctl enable docker
@@ -162,7 +176,7 @@ start_telemt() {
       --log-driver json-file \
       --log-opt max-size=50m \
       --log-opt max-file=3 \
-      -v $HOME/mtproxy-telemt/telemt.toml:/etc/telemt.toml:ro \
+      -v $USER_HOME/mtproxy-telemt/telemt.toml:/etc/telemt.toml:ro \
       whn0thacked/telemt-docker:latest
     sleep 3
 }
@@ -213,6 +227,7 @@ configure_and_start_nginx() {
 DEFAULT_DOMAIN=play.dart-inter.net
 
 main() {
+    set_user_info
     log "Мастер установки telemt (MTProto-Over-TLS)"
     # Выбираем режим работы
     echo "Выберите режим установки"
@@ -262,7 +277,7 @@ main() {
     install_components
 
     log "Клонирование репозитория"
-    mkdir -p ~/mtp_proxy && cd ~/mtp_proxy
+    mkdir -p $USER_HOME/mtp_proxy && cd $USER_HOME/mtp_proxy
     git clone https://github.com/Lobzikfase2/MTProto-Over-TLS.git ./mtp && cd ./mtp
 
     configure_telemt
@@ -271,8 +286,8 @@ main() {
         configure_and_start_nginx
     fi
 
-    cd ~/mtp_proxy
-    rm -rf ~/mtp
+    cd $USER_HOME/mtp_proxy && rm -rf ./mtp && sudo chown -R $USER_NAME:$USER_NAME *
+
 
     start_telemt
     show_proxy_link
