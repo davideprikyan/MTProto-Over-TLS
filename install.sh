@@ -19,7 +19,7 @@ set_user_info
 log() {
     local text="$1"
     local char="${2:-=}"
-    local width=80
+    local width=78
 
     # Проверяем, что текст пустой или состоит только из пробелов
     if [[ -z "${text// }" ]]; then
@@ -283,7 +283,7 @@ main() {
     configure_sysctl
 
     log "Клонирование репозитория"
-    mkdir -p $USER_HOME/mtp_proxy && cd $USER_HOME/mtp_proxy
+    rm -rf $USER_HOME/mtp_proxy && mkdir -p $USER_HOME/mtp_proxy && cd $USER_HOME/mtp_proxy
     git clone https://github.com/Lobzikfase2/MTProto-Over-TLS.git ./mtp && cd ./mtp
 
     configure_telemt
