@@ -252,7 +252,7 @@ configure_telemt() {
     sed -i "s/__DOMAIN__/$DOMAIN/g" ./telemt.toml
     sed -i "s/__MASK_PORT__/$MASK_PORT/g" ./telemt.toml
     sed -i "s/__SECRET__/$SECRET/g" ./telemt.toml
-    sed -i "s/__PREFER_IP__/$PREFER_IPV6/g" ./telemt.toml
+    sed -i "s/__PREFER_IP__/$PREFER_IP/g" ./telemt.toml
     mv ./telemt.toml ../
 }
 
