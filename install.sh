@@ -173,7 +173,7 @@ show_proxy_link() {
     echo
     log "Ссылка на подключение прокси"
     # Формируем ee-секрет: "ee" + SECRET + hex(domain)
-    DOMAIN_HEX=$(echo -n "$PUBLIC_HOST" | xxd -p | tr -d '\n')
+    DOMAIN_HEX=$(echo -n "$TLS_DOMAIN" | xxd -p | tr -d '\n')
     EE_SECRET="ee${SECRET}${DOMAIN_HEX}"
     echo "tg://proxy?server=$PUBLIC_HOST&port=443&secret=$EE_SECRET"
 }
