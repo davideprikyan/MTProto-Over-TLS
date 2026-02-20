@@ -77,7 +77,7 @@ get_installation_params() {
 install_components() {
     log "Установка всех необходимых компонентов"
     sudo apt update
-    sudo apt install -y git
+    sudo apt install -y git xxd
 
     if [[ $MODE == "vision" ]]; then
         echo "Установка nginx и certbot..."
@@ -138,6 +138,7 @@ start_telemt() {
     sudo docker rmi "lobzikfase2/telemt:$TELEMT_VERSION" 2>/dev/null || true
     sudo docker volume rm telemt-data 2>/dev/null || true
     sudo docker volume create telemt-data
+    sudo docker run --rm -v telemt-data:/data alpine chown 65532:65532 /data
 
     sudo docker run -d \
       --name telemt \
@@ -154,10 +155,10 @@ start_telemt() {
       --log-opt max-size=50m \
       --log-opt max-file=3 \
       "lobzikfase2/telemt:$TELEMT_VERSION"
-    sleep 3
 }
 
-show_proxy_link() {
+# Не используем, так как она может очень долго не появляться в логах (до минуты)!
+show_proxy_link_from_logs() {
     echo
     log "Ссылка на подключение прокси"
     PROXY_LINK=$(sudo docker logs telemt 2>&1 \
@@ -166,8 +167,15 @@ show_proxy_link() {
       | xargs -I{} echo "tg://proxy?server=$PUBLIC_HOST&port=443&secret={}")
 
     echo "$PROXY_LINK"
-    log ""
-    echo "Установка успешно завершена! Выход..."
+}
+
+show_proxy_link() {
+    echo
+    log "Ссылка на подключение прокси"
+    # Формируем ee-секрет: "ee" + SECRET + hex(domain)
+    DOMAIN_HEX=$(echo -n "$PUBLIC_HOST" | xxd -p | tr -d '\n')
+    EE_SECRET="ee${SECRET}${DOMAIN_HEX}"
+    echo "tg://proxy?server=$PUBLIC_HOST&port=443&secret=$EE_SECRET"
 }
 
 
@@ -222,6 +230,9 @@ main() {
 
     start_telemt
     show_proxy_link
+
+    log ""
+    echo "Установка успешно завершена! Выход..."
 }
 
 main
