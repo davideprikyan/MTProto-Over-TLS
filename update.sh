@@ -19,7 +19,7 @@ fi
 current_version=$(basename "$current_config" | sed -n 's/telemt_\(.*\)\.toml/\1/p')
 echo "Текущая версия Telemt: $current_version"
 
-read -p "Введите новую версию Telemt" new_version
+read -p "Введите новую версию Telemt: " new_version
 if [ -z "$new_version" ]; then
     echo "Версия не может быть пустой."
     exit 1
