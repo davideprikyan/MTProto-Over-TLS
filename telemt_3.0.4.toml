@@ -3,10 +3,9 @@
 fast_mode = true
 use_middle_proxy = true
 proxy_secret_path = "/data/proxy-secret"
-# можно заменить на "silent" для полной тишины
-log_level = "normal"
+log_level = "silent"
 
-# === Middle Proxy (ME) Configuration (стабильные параметры, без экспериментов) ===
+# === Middle Proxy (ME) Configuration (стабильные параметры) ===
 [middle]
 middle_proxy_nat_probe = true
 middle_proxy_nat_stun = "stun.l.google.com:19302"
@@ -28,10 +27,10 @@ classic = false
 secure = false
 tls = true
 
-# Сеть (IPv6 включён, но prefer=4 для стабильности ME)
+# Сеть (prefer=4 для стабильности ME)
 [network]
 ipv4 = true
-ipv6 = true
+ipv6 = false
 prefer = 4
 multipath = false
 
