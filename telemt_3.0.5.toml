@@ -1,0 +1,82 @@
+# === General Settings ===
+[general]
+fast_mode = true
+use_middle_proxy = true
+proxy_secret_path = "/data/proxy-secret"
+log_level = "silent"
+
+# === Middle Proxy (ME) Configuration (стабильные параметры) ===
+[middle]
+middle_proxy_nat_probe = true
+middle_proxy_nat_stun = "stun.l.google.com:19302"
+middle_proxy_nat_stun_servers = ["stun1.l.google.com:19302", "stun2.l.google.com:19302"]
+middle_proxy_pool_size = 16
+middle_proxy_warm_standby = 8
+stun_iface_mismatch_ignore = false
+me_keepalive_enabled = true
+me_keepalive_interval_secs = 25
+me_keepalive_jitter_secs = 5
+me_keepalive_payload_random = true
+me_warmup_stagger_enabled = true
+me_warmup_step_delay_ms = 500
+me_warmup_step_jitter_ms = 300
+
+# Режимы работы
+[general.modes]
+classic = false
+secure = false
+tls = true
+
+# Сеть (prefer=4 для стабильности ME)
+[network]
+ipv4 = true
+ipv6 = false
+prefer = 4
+multipath = false
+
+# Привязка сервера
+[server]
+port = 443
+listen_addr_ipv4 = "0.0.0.0"
+listen_addr_ipv6 = "::"
+
+# Таймауты
+[timeouts]
+client_handshake = 30
+tg_connect = 10
+client_keepalive = 60
+client_ack = 300
+# me_one_retry и me_one_timeout_ms не указаны — используются значения по умолчанию
+
+# Маскировка (active probing)
+[censorship]
+# Домен, который вшит в secret in link и записывается в SNI
+tls_domain = "__TLS_DOMAIN__"   # ваш домен
+mask = true
+# Адрес на который будет выполняться fallback при active probing
+mask_host = "__MASK_HOST__"
+mask_port = __MASK_PORT__
+fake_cert_len = 2048
+
+# Ссылки для пользователей
+[general.links]
+show = ["users"]
+# Домен/IP, который указывается в ссылке
+public_host = "__PUBLIC_HOST__"
+public_port = 443
+
+# Защита от повторных атак
+[access]
+replay_check_len = 65536
+replay_window_secs = 1800
+ignore_time_skew = false
+
+# Пользователи и секреты
+[access.users]
+users = "__SECRET__"
+
+# Upstream (прямое подключение к Telegram)
+[[upstreams]]
+type = "direct"
+enabled = true
+weight = 10
