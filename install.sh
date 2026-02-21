@@ -44,7 +44,7 @@ get_installation_params() {
         MASK_HOST="127.0.0.1"
         MASK_PORT="8443"
     else
-        read -p "Введите домен для SNI (чужой сайт, например www.amazon.com) [www.amazon.com]: " TLS_DOMAIN
+        read -p "Введите домен для SNI (чужой сайт, например www.amazon.com): " TLS_DOMAIN
         TLS_DOMAIN=${TLS_DOMAIN:-www.amazon.com}
         MASK_HOST="$TLS_DOMAIN"
         MASK_PORT="443"
@@ -154,6 +154,7 @@ start_telemt() {
       --log-driver json-file \
       --log-opt max-size=50m \
       --log-opt max-file=3 \
+      --ulimit nofile=65536:65536 \
       "lobzikfase2/telemt:$TELEMT_VERSION"
 }
 
@@ -183,7 +184,7 @@ show_proxy_link() {
 
 
 DEFAULT_DOMAIN="geogame.play.dart-inter.net"
-DEFAULT_TELEMT_VERSION="3.0.4"
+DEFAULT_TELEMT_VERSION="3.0.6"
 
 # Локальная сборка на основе последнего релиза telemt: https://github.com/telemt/telemt -- смотрим номер версии
 _build_and_push_not_for_use() {
@@ -192,8 +193,15 @@ _build_and_push_not_for_use() {
   cd telemt-docker
   docker build --build-arg TELEMT_REF=$version -t lobzikfase2/telemt:$version .
   docker push lobzikfase2/telemt:$version
+  rm -rf telemt-docker
 }
 # _build_and_push_not_for_use 3.0.4
+# Install:
+# sudo bash -c "$(wget -qO- https://raw.githubusercontent.com/Lobzikfase2/MTProto-Over-TLS/refs/heads/main/install.sh)"
+# Update:
+# sudo bash -c "$(wget -qO- https://raw.githubusercontent.com/Lobzikfase2/MTProto-Over-TLS/refs/heads/main/update.sh)"
+# Очистить все логи:
+# sudo truncate -s 0 $(docker inspect --format='{{.LogPath}}' telemt)
 
 main() {
     # Загружаем внешние функции
