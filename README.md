@@ -6,7 +6,7 @@
 ## 🚀 Установка
 
 ```bash
-sudo bash -c "$(wget -qO- https://raw.githubusercontent.com/Lobzikfase2/MTProto-Over-TLS/refs/heads/main/install.sh)"
+sudo bash -c "$(wget -qO- https://raw.githubusercontent.com/davideprikyan/MTProto-Over-TLS/blob/main/install.sh)"
 ```
 
 ---
@@ -14,5 +14,5 @@ sudo bash -c "$(wget -qO- https://raw.githubusercontent.com/Lobzikfase2/MTProto-
 ## 🔄 Обновление
 
 ```bash
-sudo bash -c "$(wget -qO- https://raw.githubusercontent.com/Lobzikfase2/MTProto-Over-TLS/refs/heads/main/update.sh)"
+sudo bash -c "$(wget -qO- https://raw.githubusercontent.com/davideprikyan/MTProto-Over-TLS/blob/main/install.sh)"
 ```
