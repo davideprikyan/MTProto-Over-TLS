@@ -246,7 +246,7 @@ main() {
     # Установка необходимых компонентов
     install_components
     # Настройка UFW
-    configure_ufw
+    #configure_ufw
     # Настройка sysctl
     backup_sysctl
     configure_sysctl
